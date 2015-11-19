@@ -22,40 +22,61 @@ public class Friends {
     @Column(name = "id", nullable = false)
 	private Long id;
 	
-	@ManyToOne
-	@JoinColumn(name = "userA_id")
-	private User userA;
+    @Column(name = "userA_id", nullable = false)
+	private Long userA;
 	
-	@ManyToOne
-	@JoinColumn(name = "userB_id")
-	private User userB;
+    @Column(name = "userB_id", nullable = false)
+	private Long userB;
 
 
-	public Friends(User userA, User userB) {
+	public Friends(Long userA, Long userB) {
 		super();
 		this.userA = userA;
 		this.userB = userB;
 	}
 	
+
 	
-	public User getUserA() {
+	
+	public Long getId() {
+		return id;
+	}
+
+
+
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+
+
+
+	public Long getUserA() {
 		return userA;
 	}
 
 
-	public void setUserA(User userA) {
+
+
+	public void setUserA(Long userA) {
 		this.userA = userA;
 	}
 
 
-	public User getUserB() {
+
+
+	public Long getUserB() {
 		return userB;
 	}
 
 
-	public void setUserB(User userB) {
+
+
+	public void setUserB(Long userB) {
 		this.userB = userB;
 	}
+
 
 
 
