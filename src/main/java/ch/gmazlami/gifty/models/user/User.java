@@ -1,21 +1,38 @@
 package ch.gmazlami.gifty.models.user;
 
-import org.springframework.data.annotation.Id;
+import java.sql.Date;
 
-public class User implements IUser {
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
-	@Id
-	private String id;
-	
+
+@Entity
+@Table(name="users")
+public class User{
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id", nullable = false)
+	private Long id;
+
+    @Column(name = "phoneNumber", nullable = false)
 	private String phoneNumber;
 	
+    @Column(name = "firstName", nullable = false)
 	private String firstName;
 	
+    @Column(name = "lastName", nullable = false)
 	private String lastName;
 	
+    @Column(name = "country", nullable = false)
 	private String country;
 	
-	private Birthday birthday;
+    @Column(name = "birthday", nullable = false)
+	private Date birthday;
 
 	
 	public String getCountry() {
@@ -27,16 +44,14 @@ public class User implements IUser {
 	}
 
 	
-	@Override
-	public String getId() {
+	public Long getId() {
 		return id;
 	}
 	
-	public void setId(String id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 	
-	@Override
 	public String getPhoneNumber() {
 		return phoneNumber;
 	}
@@ -45,7 +60,6 @@ public class User implements IUser {
 		this.phoneNumber = phoneNumber;
 	}
 	
-	@Override
 	public String getFirstName() {
 		return firstName;
 	}
@@ -54,7 +68,6 @@ public class User implements IUser {
 		this.firstName = firstName;
 	}
 	
-	@Override
 	public String getLastName() {
 		return lastName;
 	}
@@ -63,12 +76,11 @@ public class User implements IUser {
 		this.lastName = lastName;
 	}
 	
-	@Override
-	public Birthday getBirthDay() {
+	public Date getBirthDay() {
 		return birthday;
 	}
 	
-	public void setBirthday(Birthday birthday) {
+	public void setBirthday(Date birthday) {
 		this.birthday = birthday;
 	}
 
