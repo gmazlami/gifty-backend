@@ -5,11 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-
-import ch.gmazlami.gifty.models.user.User;
 
 @Entity
 @Table(name="gifts")
@@ -20,9 +16,8 @@ public class Gift {
     @Column(name = "id", nullable = false)
 	private Long id;
 	
-    @ManyToOne
-    @JoinColumn(name = "userId")
-    private User user;
+    @Column(name = "userId", nullable = false)
+    private Long userId;
     
     @Column(name = "title", nullable = false)
     private String title;
@@ -39,8 +34,8 @@ public class Gift {
 	public Gift(){}
 	
 	
-	public Gift(User user, String description, String link, GiftStatus status, String title) {
-		this.user = user;
+	public Gift(Long userId, String description, String link, GiftStatus status, String title) {
+		this.userId = userId;
 		this.description = description;
 		this.link = link;
 		this.status = status;
@@ -64,13 +59,13 @@ public class Gift {
 	}
 
 
-	public User getUser() {
-		return user;
+	public Long getUserId() {
+		return userId;
 	}
 
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setUserId(Long userId) {
+		this.userId = userId;
 	}
 
 

@@ -1,39 +1,46 @@
 package ch.gmazlami.gifty.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import ch.gmazlami.gifty.exceptions.NoSuchUserException;
 import ch.gmazlami.gifty.models.gift.Gift;
-import ch.gmazlami.gifty.models.gift.GiftStatus;
-import ch.gmazlami.gifty.postgres.repositories.GiftRepository;
-import ch.gmazlami.gifty.postgres.repositories.UserRepository;
+import ch.gmazlami.gifty.postgres.services.IGiftService;
 
 @RestController
 public class GiftController {
 
 	@Autowired
-	GiftRepository repository;
-	
-	@Autowired
-	UserRepository userRepository;
+	IGiftService giftService;
+
 	
 	@RequestMapping(value="/gift", method=RequestMethod.GET)
-	public Gift getGift(){
-//		Gift gift = new Gift(null, "+414222719", "Some demo description", "www.google.ch", GiftStatus.OPEN);
-//		return gift;
-		
-		return null;
+	public ResponseEntity<List<Gift>> getGiftsForUser(@RequestParam("userId") Long userId){
+		try{
+			return new ResponseEntity<List<Gift>>(giftService.getGiftsByUserId(userId), HttpStatus.OK);
+		}catch(NoSuchUserException e){
+			return new ResponseEntity<>(HttpStatus.FAILED_DEPENDENCY);
+		}
+
 	}
 	
 	
 	@RequestMapping(value="/gift", method=RequestMethod.POST)
-	public Gift postGift(@RequestBody Gift gift, @RequestHeader(value="User") Long userId){
-		gift.setUser(userRepository.findById(userId));
-		repository.save(gift); //TODO: add error handling if user doesnt exist
-		return gift;
+	public ResponseEntity<Gift> postGift(@RequestBody Gift gift, @RequestHeader(value="User") Long userId){
+		try{
+			giftService.postGift(gift, userId);
+		}catch(NoSuchUserException e){
+			return new ResponseEntity<>(HttpStatus.FAILED_DEPENDENCY);
+		}
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 }
