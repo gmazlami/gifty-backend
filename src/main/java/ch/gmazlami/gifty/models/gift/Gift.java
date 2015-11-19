@@ -1,30 +1,50 @@
 package ch.gmazlami.gifty.models.gift;
 
-import org.springframework.data.annotation.Id;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
+import ch.gmazlami.gifty.models.user.User;
+
+@Entity
+@Table(name="gifts")
 public class Gift {
 
 	@Id
-	private String id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id", nullable = false)
+	private Long id;
 	
-	private String userId;
-	
+    @ManyToOne
+    @JoinColumn(name = "userId")
+    private User user;
+    
+    @Column(name = "title", nullable = false)
+    private String title;
+    
+    @Column(name = "description", nullable = false)
 	private String description;
 	
+    @Column(name = "link", nullable = false)
 	private String link;
 
+    @Column(name = "status", nullable = false)
 	private GiftStatus status;
 	
 	public Gift(){}
 	
 	
-	public Gift(String id, String userId, String description, String link, GiftStatus status) {
-		super();
-		this.id = id;
-		this.userId = userId;
+	public Gift(User user, String description, String link, GiftStatus status, String title) {
+		this.user = user;
 		this.description = description;
 		this.link = link;
 		this.status = status;
+		this.title = title;
 	}
 
 	
@@ -32,24 +52,38 @@ public class Gift {
 		return status;
 	}
 
+	
+	
+	public String getTitle() {
+		return title;
+	}
+
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+
+	public User getUser() {
+		return user;
+	}
+
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+
 	public void setStatus(GiftStatus status) {
 		this.status = status;
 	}
 
-	public String getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public String getUserId() {
-		return userId;
-	}
-
-	public void setUserId(String userId) {
-		this.userId = userId;
 	}
 
 	public String getDescription() {
@@ -67,8 +101,6 @@ public class Gift {
 	public void setLink(String link) {
 		this.link = link;
 	}
-	
-	
 	
 	
 	

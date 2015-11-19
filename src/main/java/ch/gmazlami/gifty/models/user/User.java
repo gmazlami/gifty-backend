@@ -19,7 +19,7 @@ public class User{
     @Column(name = "id", nullable = false)
 	private Long id;
 
-    @Column(name = "phoneNumber", nullable = false)
+    @Column(name = "phoneNumber", nullable = false, unique = true)
 	private String phoneNumber;
 	
     @Column(name = "firstName", nullable = false)
@@ -34,7 +34,10 @@ public class User{
     @Column(name = "birthday", nullable = false)
 	private Date birthday;
 
-	
+    
+    public User(){}
+    
+    
 	public String getCountry() {
 		return country;
 	}
@@ -83,6 +86,11 @@ public class User{
 	public void setBirthday(Date birthday) {
 		this.birthday = birthday;
 	}
+
+	public Date getBirthday() {
+		return birthday;
+	}
+
 
 	@Override
 	public String toString() {
