@@ -62,8 +62,8 @@ public class GiftController {
 	
 	
 	@RequestMapping(value="/gift/{id}", method=RequestMethod.DELETE)
-	public ResponseEntity<Gift> deleteGift(@PathVariable Long giftId){
-		giftService.deleteGift(giftId);
+	public ResponseEntity<Gift> deleteGift(@PathVariable Long id){
+		giftService.deleteGift(id);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 

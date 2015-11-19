@@ -8,5 +8,7 @@ public interface IUserService {
 	
 	User getUserByPhoneNumber(String phoneNumber);
 	
+	void deleteUser(Long userId);
+	
 	void postUser(User user);
 }
