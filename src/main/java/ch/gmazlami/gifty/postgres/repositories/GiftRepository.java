@@ -11,4 +11,6 @@ public interface GiftRepository extends CrudRepository<Gift, Long> {
 	List<Gift> findByUserId(Long userId);
 	
 	Gift findById(Long id);
+	
+	Long deleteById(Long id);
 }

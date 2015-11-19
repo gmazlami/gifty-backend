@@ -13,7 +13,7 @@ public interface IGiftService {
 	
 	void updateGiftStatus(Long giftId, GiftStatus status) throws GiftNotFoundException;
 	
-	void deleteGift(Long giftId) throws GiftNotFoundException;
+	void deleteGift(Long giftId);
 	
 	Gift getGiftById(Long id) throws GiftNotFoundException;
 	

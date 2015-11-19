@@ -69,8 +69,8 @@ public class GiftServiceImpl implements IGiftService {
 	}
 
 	@Override
-	public void deleteGift(Long giftId) throws GiftNotFoundException {
-		
+	public void deleteGift(Long giftId){
+		giftRepository.deleteById(giftId);
 	}
 
 }
