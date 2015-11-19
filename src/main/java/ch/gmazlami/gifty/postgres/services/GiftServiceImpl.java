@@ -54,12 +54,8 @@ public class GiftServiceImpl implements IGiftService {
 	}
 
 	@Override
-	public void updateGiftStatus(Long giftId, GiftStatus status, Long userId) throws GiftNotFoundException, NoSuchUserException {
-		//check if the user with said userId exists
-		if(userRepository.findById(userId) == null){
-			throw new NoSuchUserException(userId);
-		}
-		
+	public void updateGiftStatus(Long giftId, GiftStatus status) throws GiftNotFoundException {
+
 		Gift gift = giftRepository.findById(giftId);
 		
 		if(gift == null){
@@ -70,6 +66,11 @@ public class GiftServiceImpl implements IGiftService {
 		
 		giftRepository.save(gift);
 			
+	}
+
+	@Override
+	public void deleteGift(Long giftId) throws GiftNotFoundException {
+		
 	}
 
 }

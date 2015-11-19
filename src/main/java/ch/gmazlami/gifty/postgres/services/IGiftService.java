@@ -11,7 +11,9 @@ public interface IGiftService {
 
 	void postGift(Gift gift, Long userId) throws NoSuchUserException;
 	
-	void updateGiftStatus(Long giftId, GiftStatus status, Long userId) throws GiftNotFoundException, NoSuchUserException;
+	void updateGiftStatus(Long giftId, GiftStatus status) throws GiftNotFoundException;
+	
+	void deleteGift(Long giftId) throws GiftNotFoundException;
 	
 	Gift getGiftById(Long id) throws GiftNotFoundException;
 	

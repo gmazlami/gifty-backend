@@ -51,9 +51,7 @@ public class GiftController {
 	@RequestMapping(value="/gift", method=RequestMethod.PUT)
 	public ResponseEntity<Gift> alterGiftStatus(@RequestParam GiftStatus giftStatus,@RequestParam Long giftId, @RequestParam Long userId){
 		try{
-			giftService.updateGiftStatus(giftId, giftStatus, userId);
-		}catch(NoSuchUserException e){
-			return new ResponseEntity<>(HttpStatus.FAILED_DEPENDENCY);
+			giftService.updateGiftStatus(giftId, giftStatus);
 		}catch(GiftNotFoundException e){
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
