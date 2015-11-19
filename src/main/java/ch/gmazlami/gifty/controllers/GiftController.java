@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import ch.gmazlami.gifty.exceptions.GiftNotFoundException;
 import ch.gmazlami.gifty.exceptions.NoSuchUserException;
 import ch.gmazlami.gifty.models.gift.Gift;
+import ch.gmazlami.gifty.models.gift.GiftStatus;
 import ch.gmazlami.gifty.postgres.services.IGiftService;
 
 @RestController
@@ -43,4 +45,20 @@ public class GiftController {
 		}
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
+	
+
+	
+	@RequestMapping(value="/gift", method=RequestMethod.PUT)
+	public ResponseEntity<Gift> alterGiftStatus(@RequestParam GiftStatus giftStatus,@RequestParam Long giftId, @RequestParam Long userId){
+		try{
+			giftService.updateGiftStatus(giftId, giftStatus, userId);
+		}catch(NoSuchUserException e){
+			return new ResponseEntity<>(HttpStatus.FAILED_DEPENDENCY);
+		}catch(GiftNotFoundException e){
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+
 }

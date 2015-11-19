@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import ch.gmazlami.gifty.exceptions.GiftNotFoundException;
 import ch.gmazlami.gifty.exceptions.NoSuchUserException;
 import ch.gmazlami.gifty.models.gift.Gift;
+import ch.gmazlami.gifty.models.gift.GiftStatus;
 import ch.gmazlami.gifty.postgres.repositories.GiftRepository;
 import ch.gmazlami.gifty.postgres.repositories.UserRepository;
 
@@ -50,6 +51,25 @@ public class GiftServiceImpl implements IGiftService {
 		}else{
 			return giftRepository.findByUserId(userId);
 		}
+	}
+
+	@Override
+	public void updateGiftStatus(Long giftId, GiftStatus status, Long userId) throws GiftNotFoundException, NoSuchUserException {
+		//check if the user with said userId exists
+		if(userRepository.findById(userId) == null){
+			throw new NoSuchUserException(userId);
+		}
+		
+		Gift gift = giftRepository.findById(giftId);
+		
+		if(gift == null){
+			throw new GiftNotFoundException(giftId);
+		}
+		
+		gift.setStatus(status);
+		
+		giftRepository.save(gift);
+			
 	}
 
 }
