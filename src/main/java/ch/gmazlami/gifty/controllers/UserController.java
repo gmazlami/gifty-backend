@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import ch.gmazlami.gifty.exceptions.NoSuchPhoneNumberException;
+import ch.gmazlami.gifty.exceptions.NoSuchUserException;
 import ch.gmazlami.gifty.models.user.User;
 import ch.gmazlami.gifty.postgres.repositories.UserRepository;
 import ch.gmazlami.gifty.postgres.services.IUserService;
@@ -24,20 +26,31 @@ public class UserController {
 	IUserService userService;
 
 	@RequestMapping(value = "/user/{id}", method = RequestMethod.GET)
-	public User getUser(@PathVariable Long id){
-		return userService.getUserById(id);
+	public ResponseEntity<User> getUser(@PathVariable Long id){
+		try{
+			return new ResponseEntity<User>(userService.getUserById(id), HttpStatus.OK);
+		}catch(NoSuchUserException e){
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
 	}
 	
+	
 	@RequestMapping(value = "/user", method = RequestMethod.GET)
-	public User getByPhoneNumber(@RequestParam("phoneNumber") String phoneNumber){
-		return userService.getUserByPhoneNumber(phoneNumber);
+	public ResponseEntity<User> getByPhoneNumber(@RequestParam("phoneNumber") String phoneNumber){
+		try {
+			return new ResponseEntity<User>(userService.getUserByPhoneNumber(phoneNumber),HttpStatus.OK);
+		}catch(NoSuchPhoneNumberException e){
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
 	}
+	
 	
 	@RequestMapping(value="/user", method = RequestMethod.POST)
 	public User postUser(@RequestBody User user){
 		return repository.save(user);
 	}
 
+	
 	@RequestMapping(value = "/user/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<User> deleteUser(@PathVariable Long id){
 		userService.deleteUser(id);
