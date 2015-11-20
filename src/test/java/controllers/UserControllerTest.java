@@ -1,10 +1,13 @@
 package controllers;
 
+import java.sql.Date;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
@@ -19,6 +22,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import ch.gmazlami.gifty.Application;
 import ch.gmazlami.gifty.config.MvcConfig;
 import ch.gmazlami.gifty.config.RepositoryConfig;
+import ch.gmazlami.gifty.models.user.User;
 import ch.gmazlami.gifty.postgres.services.IUserService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -75,6 +79,19 @@ public class UserControllerTest {
 			.andExpect(MockMvcResultMatchers.content().json(json(userService.getUserByPhoneNumber("0041764222719"))));
 	}
 	
+	@Test
+	public void addNewUser() throws Exception {
+		User mockUser = new User();
+		mockUser.setCountry("CH");
+		mockUser.setFirstName("John");
+		mockUser.setLastName("Doe");
+		mockUser.setPhoneNumber(String.valueOf(System.currentTimeMillis()));
+		mockUser.setBirthday(new Date(System.currentTimeMillis()));
+		
+		mockMvc.perform(MockMvcRequestBuilders.post("/user").content(json(mockUser)).contentType(MediaType.APPLICATION_JSON))
+				.andExpect(MockMvcResultMatchers.status().isOk());
+//				.andExpect(MockMvcResultMatchers.content().json(json(mockUser)));
+	}
 	
     protected String json(Object o) throws JsonProcessingException {
     	return jacksonObjectMapper.writeValueAsString(o);
