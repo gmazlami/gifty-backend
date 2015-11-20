@@ -41,7 +41,7 @@ public class UserControllerTest {
 	
 	@Before
     public void setup() throws Exception {
-        this.mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
+        this.mockMvc = MockMvcBuilders.webAppContextSetup(context).build(); 
     }
 	
 	
@@ -58,6 +58,21 @@ public class UserControllerTest {
 				.get("/user/2"))
 				.andExpect(MockMvcResultMatchers.status().isOk())
 				.andExpect(MockMvcResultMatchers.content().json(json(userService.getUserById(2L))));
+	}
+	
+	
+	@Test
+	public void noSuchPhoneNumber() throws Exception {
+		mockMvc.perform(MockMvcRequestBuilders.get("/user?phoneNumber=00000000"))
+			.andExpect(MockMvcResultMatchers.status().isNotFound());
+	}
+	
+	
+	@Test
+	public void successfulUserByPhone() throws Exception {
+		mockMvc.perform(MockMvcRequestBuilders.get("/user?phoneNumber=0041764222719"))
+			.andExpect(MockMvcResultMatchers.status().isOk())
+			.andExpect(MockMvcResultMatchers.content().json(json(userService.getUserByPhoneNumber("0041764222719"))));
 	}
 	
 	
