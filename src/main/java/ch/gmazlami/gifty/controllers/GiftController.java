@@ -64,8 +64,8 @@ public class GiftController {
 	 * @param giftId : the gift to be updated
 	 * @return
 	 */
-	@RequestMapping(value="/gift", method=RequestMethod.PUT)
-	public ResponseEntity<Gift> alterGiftStatus(@RequestParam GiftStatus giftStatus,@RequestParam Long giftId){
+	@RequestMapping(value="/gift/{giftId}", method=RequestMethod.PUT)
+	public ResponseEntity<Gift> alterGiftStatus(@PathVariable("giftId") Long giftId, @RequestParam("status") GiftStatus giftStatus){
 		try{
 			Gift gift = giftService.updateGiftStatus(giftId, giftStatus);
 			return new ResponseEntity<Gift>(gift,HttpStatus.OK);
