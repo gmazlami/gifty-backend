@@ -79,10 +79,6 @@ public class User{
 		this.lastName = lastName;
 	}
 	
-	public Date getBirthDay() {
-		return birthday;
-	}
-	
 	public void setBirthday(Date birthday) {
 		this.birthday = birthday;
 	}

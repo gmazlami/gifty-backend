@@ -24,9 +24,6 @@ public class Gift {
     
     @Column(name = "description", nullable = false)
 	private String description;
-	
-    @Column(name = "link", nullable = false)
-	private String link;
 
     @Column(name = "status", nullable = false)
 	private GiftStatus status;
@@ -34,10 +31,9 @@ public class Gift {
 	public Gift(){}
 	
 	
-	public Gift(Long userId, String description, String link, GiftStatus status, String title) {
+	public Gift(Long userId, String description, GiftStatus status, String title) {
 		this.userId = userId;
 		this.description = description;
-		this.link = link;
 		this.status = status;
 		this.title = title;
 	}
@@ -89,14 +85,4 @@ public class Gift {
 		this.description = description;
 	}
 
-	public String getLink() {
-		return link;
-	}
-
-	public void setLink(String link) {
-		this.link = link;
-	}
-	
-	
-	
 }
