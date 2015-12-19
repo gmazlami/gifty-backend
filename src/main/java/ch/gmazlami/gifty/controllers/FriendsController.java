@@ -54,7 +54,11 @@ public class FriendsController {
 		}
 	}
 	
-	
+	/**
+	 * Returns a list of all the friends of the user with id myId
+	 * @param myId
+	 * @return
+	 */
 	@RequestMapping(value="/friends-all/{myId}", method=RequestMethod.GET)
 	public ResponseEntity<List<Friends>> getAllFriends(@PathVariable("myId") Long myId){
 		try{

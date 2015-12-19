@@ -50,12 +50,21 @@ public class UserController {
 	}
 	
 	
+	/**
+	 * Creates a new user according to the json object in the payload
+	 * @param user
+	 * @return
+	 */
 	@RequestMapping(value="/user", method = RequestMethod.POST)
 	public ResponseEntity<User> postUser(@RequestBody User user){
 		return new ResponseEntity<User>(userService.postUser(user), HttpStatus.OK); 
 	}
 
-	
+	/**
+	 * DELETE the user with id id
+	 * @param id
+	 * @return
+	 */
 	@RequestMapping(value = "/user/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<User> deleteUser(@PathVariable Long id){
 		userService.deleteUser(id);
