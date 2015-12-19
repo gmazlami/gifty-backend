@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 import ch.gmazlami.gifty.exceptions.NoSuchPhoneNumberException;
 import ch.gmazlami.gifty.exceptions.NoSuchUserException;
 import ch.gmazlami.gifty.models.user.User;
-import ch.gmazlami.gifty.postgres.repositories.GiftRepository;
 import ch.gmazlami.gifty.postgres.repositories.UserRepository;
 
 @Service
@@ -14,9 +13,6 @@ public class UserServiceImpl implements IUserService {
 
 	@Autowired
 	UserRepository userRepository;
-	
-	@Autowired
-	GiftRepository giftRepository;
 	
 	@Override
 	public User getUserById(Long id) throws NoSuchUserException{
@@ -41,8 +37,15 @@ public class UserServiceImpl implements IUserService {
 	}
 
 	@Override
-	public void postUser(User user) {
-		userRepository.save(user);
+	public User postUser(User user) {
+		User existing = userRepository.findByPhoneNumber(user.getPhoneNumber());
+		
+		if(existing == null){
+			return userRepository.save(user);
+		}else{
+			return existing;
+		}
+		
 	}
 
 	@Override

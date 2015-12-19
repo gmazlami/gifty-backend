@@ -5,10 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import ch.gmazlami.gifty.models.user.User;
@@ -21,21 +18,17 @@ public class Friends {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
 	private Long id;
+
+	@ManyToOne
+	private User userA;
 	
-    @Column(name = "userA_id", nullable = false)
-	private Long userA;
-	
-    @Column(name = "userB_id", nullable = false)
-	private Long userB;
+	@ManyToOne
+	private User userB;
 
 
-	public Friends(Long userA, Long userB) {
+	public Friends(){
 		super();
-		this.userA = userA;
-		this.userB = userB;
 	}
-	
-
 	
 	
 	public Long getId() {
@@ -43,41 +36,24 @@ public class Friends {
 	}
 
 
-
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-
-
-
-	public Long getUserA() {
+	public User getUserA() {
 		return userA;
 	}
 
 
-
-
-	public void setUserA(Long userA) {
+	public void setUserA(User userA) {
 		this.userA = userA;
 	}
 
 
-
-
-	public Long getUserB() {
+	public User getUserB() {
 		return userB;
 	}
 
-
-
-
-	public void setUserB(Long userB) {
+	
+	public void setUserB(User userB) {
 		this.userB = userB;
 	}
-
-
 
 
 	@Override

@@ -9,6 +9,7 @@ import ch.gmazlami.gifty.exceptions.GiftNotFoundException;
 import ch.gmazlami.gifty.exceptions.NoSuchUserException;
 import ch.gmazlami.gifty.models.gift.Gift;
 import ch.gmazlami.gifty.models.gift.GiftStatus;
+import ch.gmazlami.gifty.models.user.User;
 import ch.gmazlami.gifty.postgres.repositories.GiftRepository;
 import ch.gmazlami.gifty.postgres.repositories.UserRepository;
 
@@ -23,13 +24,15 @@ public class GiftServiceImpl implements IGiftService {
 	
 	
 	@Override
-	public void postGift(Gift gift, Long userId) throws NoSuchUserException{
-		//check if the user with said userId exists
-		if(userRepository.findById(userId) == null){
-			throw new NoSuchUserException(userId);
+	public Gift postGift(Gift gift, String phoneNumber) throws NoSuchUserException{
+		//check if the user with said phoneNumber exists
+		
+		User user = userRepository.findByPhoneNumber(phoneNumber);
+		if(user == null){
+			throw new NoSuchUserException(phoneNumber);
 		}else{
-			gift.setUserId(userId);
-			giftRepository.save(gift);
+			gift.setUser(user);
+			return giftRepository.save(gift);
 		}
 	}
 
@@ -44,17 +47,7 @@ public class GiftServiceImpl implements IGiftService {
 	}
 
 	@Override
-	public List<Gift> getGiftsByUserId(Long userId) throws NoSuchUserException {
-		//check if the user with said userId exists
-		if(userRepository.findById(userId) == null){
-			throw new NoSuchUserException(userId);
-		}else{
-			return giftRepository.findByUserId(userId);
-		}
-	}
-
-	@Override
-	public void updateGiftStatus(Long giftId, GiftStatus status) throws GiftNotFoundException {
+	public Gift updateGiftStatus(Long giftId, GiftStatus status) throws GiftNotFoundException {
 
 		Gift gift = giftRepository.findById(giftId);
 		
@@ -64,13 +57,26 @@ public class GiftServiceImpl implements IGiftService {
 		
 		gift.setStatus(status);
 		
-		giftRepository.save(gift);
+		return giftRepository.save(gift);
 			
 	}
 
 	@Override
 	public void deleteGift(Long giftId){
 		giftRepository.deleteById(giftId);
+	}
+
+	@Override
+	public List<Gift> getGiftsByPhoneNumber(String phoneNumber) throws NoSuchUserException {
+		
+		//check if the user with said phoneNumber exists
+		User user = userRepository.findByPhoneNumber(phoneNumber);
+		
+		if(user == null){
+			throw new NoSuchUserException(phoneNumber);
+		}else{
+			return giftRepository.findByUser_Id(user.getId());
+		}
 	}
 
 }

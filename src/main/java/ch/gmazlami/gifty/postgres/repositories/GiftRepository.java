@@ -10,7 +10,8 @@ import ch.gmazlami.gifty.models.gift.Gift;
 
 public interface GiftRepository extends CrudRepository<Gift, Long> {
 
-	List<Gift> findByUserId(Long userId);
+	
+	List<Gift> findByUser_Id(Long userId);
 	
 	Gift findById(Long id);
 	

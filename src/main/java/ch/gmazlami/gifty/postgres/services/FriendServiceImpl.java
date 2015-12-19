@@ -3,8 +3,6 @@ package ch.gmazlami.gifty.postgres.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import ch.gmazlami.gifty.models.friends.Friends;
-import ch.gmazlami.gifty.models.user.User;
 import ch.gmazlami.gifty.postgres.repositories.FriendsRepository;
 import ch.gmazlami.gifty.postgres.repositories.UserRepository;
 
@@ -20,15 +18,15 @@ public class FriendServiceImpl implements IFriendService {
 	
 	@Override
 	public boolean addFriend(Long userId, String friendPhoneNumber) {
-		User user = userRepository.findById(userId);
-		User friend = userRepository.findByPhoneNumber(friendPhoneNumber);
-		
-		if(friend == null){
-			return false;
-		}
-		
-		Friends friends = new Friends(user.getId(), friend.getId());
-		friendRepository.save(friends);
+//		User user = userRepository.findById(userId);
+//		User friend = userRepository.findByPhoneNumber(friendPhoneNumber);
+//		
+//		if(friend == null){
+//			return false;
+//		}
+//		
+//		Friends friends = new Friends(user.getId(), friend.getId());
+//		friendRepository.save(friends);
 
 		return true;
 	}

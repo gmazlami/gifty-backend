@@ -13,18 +13,19 @@ import org.springframework.web.bind.annotation.RestController;
 import ch.gmazlami.gifty.exceptions.NoSuchPhoneNumberException;
 import ch.gmazlami.gifty.exceptions.NoSuchUserException;
 import ch.gmazlami.gifty.models.user.User;
-import ch.gmazlami.gifty.postgres.repositories.UserRepository;
 import ch.gmazlami.gifty.postgres.services.IUserService;
 
 @RestController
 public class UserController {
 
 	@Autowired
-	UserRepository repository;
-	
-	@Autowired
 	IUserService userService;
 
+	/**
+	 * GET a user by id
+	 * @param {@link Long} id
+	 * @return
+	 */
 	@RequestMapping(value = "/user/{id}", method = RequestMethod.GET)
 	public ResponseEntity<User> getUser(@PathVariable Long id){
 		try{
@@ -34,7 +35,11 @@ public class UserController {
 		}
 	}
 	
-	
+	/**
+	 * GET a user by phoneNumber
+	 * @param {@link String} phoneNumber
+	 * @return
+	 */
 	@RequestMapping(value = "/user", method = RequestMethod.GET)
 	public ResponseEntity<User> getByPhoneNumber(@RequestParam("phoneNumber") String phoneNumber){
 		try {
@@ -46,8 +51,8 @@ public class UserController {
 	
 	
 	@RequestMapping(value="/user", method = RequestMethod.POST)
-	public User postUser(@RequestBody User user){
-		return repository.save(user);
+	public ResponseEntity<User> postUser(@RequestBody User user){
+		return new ResponseEntity<User>(userService.postUser(user), HttpStatus.OK); 
 	}
 
 	

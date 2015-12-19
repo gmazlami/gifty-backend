@@ -7,7 +7,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,10 +25,15 @@ public class GiftController {
 	IGiftService giftService;
 
 	
+	/**
+	 * GET a list of gifts for the user with phoneNumber
+	 * @param userId
+	 * @return
+	 */
 	@RequestMapping(value="/gift", method=RequestMethod.GET)
-	public ResponseEntity<List<Gift>> getGiftsForUser(@RequestParam("userId") Long userId){
+	public ResponseEntity<List<Gift>> getGiftsForUser(@RequestParam("phoneNumber") String phoneNumber){
 		try{
-			return new ResponseEntity<List<Gift>>(giftService.getGiftsByUserId(userId), HttpStatus.OK);
+			return new ResponseEntity<List<Gift>>(giftService.getGiftsByPhoneNumber(phoneNumber), HttpStatus.OK);
 		}catch(NoSuchUserException e){
 			return new ResponseEntity<>(HttpStatus.FAILED_DEPENDENCY);
 		}
@@ -37,30 +41,45 @@ public class GiftController {
 	}
 	
 	
+	/**
+	 * POST a new gift for user with myPhoneNumber
+	 * @param gift
+	 * @param myPhoneNumber
+	 * @return
+	 */
 	@RequestMapping(value="/gift", method=RequestMethod.POST)
-	public ResponseEntity<Gift> postGift(@RequestBody Gift gift, @RequestHeader(value="User") Long userId){
+	public ResponseEntity<Gift> postGift(@RequestBody Gift gift, @RequestParam(value="myPhoneNumber") String myPhoneNumber){
 		try{
-			giftService.postGift(gift, userId);
+			Gift savedGift = giftService.postGift(gift, myPhoneNumber);
+			return new ResponseEntity<Gift>(savedGift,HttpStatus.OK);
 		}catch(NoSuchUserException e){
 			return new ResponseEntity<>(HttpStatus.FAILED_DEPENDENCY);
 		}
-		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
 
-	
+	/**
+	 * Updates the status of a gift 
+	 * @param giftStatus : the new status
+	 * @param giftId : the gift to be updated
+	 * @return
+	 */
 	@RequestMapping(value="/gift", method=RequestMethod.PUT)
-	public ResponseEntity<Gift> alterGiftStatus(@RequestParam GiftStatus giftStatus,@RequestParam Long giftId, @RequestParam Long userId){
+	public ResponseEntity<Gift> alterGiftStatus(@RequestParam GiftStatus giftStatus,@RequestParam Long giftId){
 		try{
-			giftService.updateGiftStatus(giftId, giftStatus);
+			Gift gift = giftService.updateGiftStatus(giftId, giftStatus);
+			return new ResponseEntity<Gift>(gift,HttpStatus.OK);
 		}catch(GiftNotFoundException e){
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 		
-		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
-	
+	/**
+	 * DELETE the gift with the specified id
+	 * @param id
+	 * @return
+	 */
 	@RequestMapping(value="/gift/{id}", method=RequestMethod.DELETE)
 	public ResponseEntity<Gift> deleteGift(@PathVariable Long id){
 		giftService.deleteGift(id);
