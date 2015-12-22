@@ -34,6 +34,8 @@ public class User{
     @Column(name = "birthday", nullable = false)
 	private Date birthday;
 
+    @Column(name = "secret", nullable = false)
+    private String secret;
     
     public User(){}
     
@@ -86,13 +88,25 @@ public class User{
 	public Date getBirthday() {
 		return birthday;
 	}
+	
+
+	public String getSecret() {
+		return secret;
+	}
+
+
+	public void setSecret(String secret) {
+		this.secret = secret;
+	}
 
 
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", phoneNumber=" + phoneNumber + ", firstName=" + firstName + ", lastName=" + lastName
-				+ ", country=" + country + ", birthday=" + birthday + "]";
+				+ ", country=" + country + ", birthday=" + birthday + ", secret=" + secret + "]";
 	}
+
+
 	
 	
 
